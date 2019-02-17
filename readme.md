@@ -1,6 +1,10 @@
-# AutoDetweeter
+# whoisntcoolanymore
 
-AutoDetweeter automatically deletes tweets after a set period of time.
+whoisntcoolanymore emails you a daily summary of your follower changes.
+
+## Twitter Dev Account
+
+You will need to sign up for a Twitter Dev account and create an app. After creating the app, you will need to generate keys for the app in order to use whoisntcoolanymore.
 
 ## Config
 Use process env variables to set the following values:
@@ -10,33 +14,35 @@ Use process env variables to set the following values:
 - `process.env.ACCESS_TOKEN_KEY`
 - `process.env.ACCESS_TOKEN_SECRET`
 - `process.env.SCREEN_NAME`
-- `process.env.TWITTER_DATE_FORMAT`
-- `process.env.DELETE_AFTER`
-- `process.env.TIME_UNIT`
+- `process.env.MONGODB_URI`
+- `process.env.SENDGRID_API_KEY` // generate in SendGrid
+- `process.env.EMAIL` // your email
+- `process.env.LOCAL_STRING` // 'en-US'
 
-## Time Unit and Delete After
+## Email depends on SendGrid
 
-`process.env.TIME_UNIT` and `process.env.DELETE_AFTER` are parsed by the moment.js library. [Learn more about valid formats here.](https://momentjs.com/docs/#/parsing/string-format/).
+You can install [SendGrid via Heroku](https://elements.heroku.com/addons/sendgrid) add-ons easily or sign up on [SendGrid's site](https://sendgrid.com).
 
-- `process.env.TIME_UNIT` is a string
-- `process.env.DELETE_AFTER` is an integer represented as a string.
+## Deploy on Heroku for Free
 
-ex: 60days would have `TIME_UNIT` of `'d'` and `DELETE_AFTER` would be `'60'`
+Best to deploy on [Heroku with a scheduler](https://devcenter.heroku.com/articles/scheduler) and [mLab](https://devcenter.heroku.com/articles/mongolab) and [SendGrid](https://elements.heroku.com/addons/sendgrid).
 
-## Twitter Date Format
+I set the schedule to weekly, but daily or hourly or whatever would work.
 
-Currently: `ddd MMM DD hh:mm:ss ZZ YYYY`
+If you are trying to run it for free, remember to periodically check your mLab storage and clear out the collection.
 
-Not sure if that will change, but didn't want to push the code again if it does.
+## First Run
 
-## Deploy on Heroku
-
-Best to deploy on [Heroku with a scheduler](https://devcenter.heroku.com/articles/scheduler).
+whoisntcoolanymore will not have enough history on first run to send an email. No email will be sent until the second run. No email will be sent if no changes have occured.
 
 ## License
 
-AutoDetweeter is Public Domain
+whoisntcoolanymore is Public Domain
 
-## Support
+## Developer Warning
 
-There is no support. This serves my purpose. If it helps you as well, awesome.
+This is not the best javascript you'll ever see.
+
+## Accounts with above ~5000 followers
+
+This script will probably not handle accounts with follower list above ~5000 accounts due to how Twitters API works at scale, and my not needing to solve for that.
